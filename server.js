@@ -1,4 +1,5 @@
 // Dependendcies
+const fs = require('fs');
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -11,19 +12,20 @@ app.use(express.static(__dirname + '/public'));
 
 // Notes Array Data
 
-
+let notesArr = [];
 
 //  Routes
 
-// index.html
+// show index.html
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
 
-// notes.html
+// show notes.html
 app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'notes.html'));
   });
+
 
 // Listener
 app.listen(PORT, () => {
