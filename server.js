@@ -45,6 +45,28 @@ app.post('/api/notes', (req, res) => {
   res.json(saveNote);
 })
 
+// BONUS
+app.delete('/api/notes/:id', (req, res) => {
+
+  // ...read all notes from the db.json file
+  let saveNote = JSON.parse(fs.readFileSync('./db/db.json'));
+  let noteID = req.params.id;
+  let newID = 0;
+
+  // ...remove (filter out) the note with the given id property
+  saveNote = saveNote.filter(selectedNote => {
+      return selectedNote.id != noteID;
+  })
+  
+   // ...rewrite the notes to the db.json file
+  for (selectedNote of saveNote) {
+      selectedNote.id = newID.toString();
+      newID++;
+  }
+
+  fs.writeFileSync("./db/db.json", JSON.stringify(saveNote));
+  res.json(saveNote);
+})
 
 // Listener
 app.listen(PORT, () => {
