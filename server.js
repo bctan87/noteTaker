@@ -64,7 +64,7 @@ app.delete('/api/notes/:id', (req, res) => {
       newID++;
   }
 
-  fs.writeFileSync("./db/db.json", JSON.stringify(saveNote));
+  fs.writeFileSync('./db/db.json', JSON.stringify(saveNote));
   res.json(saveNote);
 })
 
