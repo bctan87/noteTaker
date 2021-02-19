@@ -10,10 +10,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
-// Notes Array Data
-
-let notesArr = [];
-
 //  Routes
 
 // show index.html
@@ -25,6 +21,29 @@ app.get('/', (req, res) => {
 app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'notes.html'));
   });
+
+// show notes 
+app.get('/api/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, '/db/db.json'));
+});
+
+// notes ID
+app.get('/api/notes/:id', (req, res) => {
+  let saveNote = JSON.parse(fs.readFileSync('./db/db.json'));
+  res.json(saveNote[Number(req.params.id)]);
+});
+
+// save notes
+app.post('/api/notes', (req, res) => {
+  const saveNote = JSON.parse(fs.readFileSync('./db/db.json'));
+  const addNote = req.body;
+  const noteId = (saveNote.length).toString();
+  addNote.id = noteId;
+  saveNote.push(addNote);
+
+  fs.writeFileSync('./db/db.json', JSON.stringify(saveNote));
+  res.json(saveNote);
+})
 
 
 // Listener
